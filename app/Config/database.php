@@ -30,6 +30,47 @@ class DATABASE_CONFIG {
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
+    
+    public $dev = array(
+        'datasource' => 'Database/Mysql',
+		'persistent' => false,
+		'host' => 'localhost',
+		'login' => 'cakebase',
+		'password' => 'cakebase',
+		'database' => 'cakebase',
+		'prefix' => '',
+    );
+    
+    public $stage = array(
+        'datasource' => 'Database/Mysql',
+		'persistent' => false,
+		'host' => 'localhost',
+		'login' => 'cakebase',
+		'password' => 'cakebase',
+		'database' => 'cakebase',
+		'prefix' => '',
+    );
+    
+    /**
+	 * Handle which database connection strings to use...
+	 * 
+	 * @param string $env dev/stage/live (optional)
+	 * @return none
+	 */
+	public function __construct($env = '') {
+        
+        if(empty($env)) {
+            if($_SERVER['HTTP_HOST'] == 'dev') {
+                $this->default = $this->dev;
+            } elseif($_SERVER['HTTP_HOST'] == 'stage') {
+                $this->default = $this->stage;
+            } else {
+                
+            }
+        } else {
+            $this->default = $this->$env;
+        }
+	}
 }
 
 
