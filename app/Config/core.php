@@ -59,6 +59,20 @@
 	define('LOG_ERROR', 2);
     
     
+    /** Environment specific settings **/
+    if($_SERVER['HTTP_HOST'] == 'dev') {
+        $memcache_prefix = 'dev_';
+    	$memcache_servers = array(
+    		'127.0.0.1:11211',
+    	);
+        
+    } else {
+        $memcache_prefix = 'live_';
+    	$memcache_servers = array(
+    		'127.0.0.1:11211',
+    	);
+    }
+    
     
     
     
@@ -125,12 +139,12 @@
     /**
      * A random string used in security hashing methods.
      */
-	Configure::write('Security.salt', 'DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');
+	Configure::write('Security.salt', 'DYhG93b0qysafJfIxfs2guVoUubWwvniR2G0FgaC9mi');
 
     /**
      * A random numeric string (digits only) used to encrypt/decrypt strings.
      */
-	Configure::write('Security.cipherSeed', '76859309657453542496749683645');
+	Configure::write('Security.cipherSeed', '7685923309657453542496749683645');
 
 	Configure::write('Asset.timestamp', true);
 	//Configure::write('Asset.filter.css', 'css.php');

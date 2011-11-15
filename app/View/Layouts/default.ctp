@@ -23,22 +23,23 @@
 <div id="body">
 
     <div id="topheader">
-        <img src="/img/logos/logo_mini.png" alt="" style="padding-left: 36px;" />
-        <img src="/img/logos/logo_mobile.gif" alt="" />
+       <h1>Cake Base Install</h1>
     </div>
     
-    <div class="container_24">
-        <?php 
-        echo $this->Session->flash();
-        echo $content_for_layout; 
-        ?>
+    <div id="inner_body" class="container_24">
+        <div class="grid_24">
+            <?php 
+            echo $this->Session->flash();
+            echo $content_for_layout; 
+            ?>
+        </div>
     </div>
     
-    <div id="footer">
     
-    </div>
 </div>
-
+<div id="footer">
+    
+    </div>
 
 </body>
 </html>
