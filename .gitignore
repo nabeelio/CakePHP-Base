@@ -1,0 +1,6 @@
+app/tmp/cache/persistent/*
+app/tmp/cache/models/*
+app/tmp/cache/views/*
+app/tmp/logs/*
+app/sessions/*
+app/tests/*
