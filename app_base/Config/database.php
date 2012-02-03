@@ -1,10 +1,9 @@
 <?php
 /**
- * @author Nabeel Shahzad <nabeel@dormillo.com>
- * @copyright dormillo.com (c) 2011 all rights reserved
- * @license property of dormillo.com
- * 
- * // <!-- phpDesigner :: Timestamp [9/8/2011 12:35:47 PM] -->
+ * @author Nabeel Shahzad <nshahzad@gmail.com>
+ * @license MIT
+ * @web http://github.com/nshahzad
+ *
  */
  
 class DATABASE_CONFIG {
@@ -22,10 +21,10 @@ class DATABASE_CONFIG {
 		$this->default = array(
 			'datasource' => 'Database/Mysql',
 			'persistent' => false,
-			'host' => DormilloSettings::get('mysql', 'host'),
-			'login' => DormilloSettings::get('mysql', 'login'),
-			'password' => DormilloSettings::get('mysql', 'password'),
-			'database' => DormilloSettings::get('mysql', 'database'),
+			'host' => JSONConfigPuller::get('mysql', 'host'),
+			'login' => JSONConfigPuller::get('mysql', 'login'),
+			'password' => JSONConfigPuller::get('mysql', 'password'),
+			'database' => JSONConfigPuller::get('mysql', 'database'),
 			'prefix' => '',
 		);
 

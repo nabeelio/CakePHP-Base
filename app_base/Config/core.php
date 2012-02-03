@@ -1,9 +1,9 @@
 <?php
 /**
- * @author Nabeel Shahzad <nabeel@dormillo.com>
- * @copyright dormillo.com (c) 2011 all rights reserved
- * @license property of dormillo.com 
- * 
+ * @author Nabeel Shahzad <nshahzad@gmail.com>
+ * @license MIT
+ * @web http://github.com/nshahzad
+ *
  */
 
 /**

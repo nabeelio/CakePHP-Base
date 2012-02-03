@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * @author Nabeel Shahzad <nshahzad@gmail.com>
+ * @license MIT
+ * @web http://github.com/nshahzad
+ *
+ */
 
 // Setup a 'default' cache configuration for use in the application.
 Cache::config('default', array('engine' => 'File'));
@@ -11,11 +16,3 @@ Cache::config('default', array('engine' => 'File'));
  * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  *
  */
-
-
-function vd ($var)
-{
-	echo '<pre>';
-	var_dump($var);
-	echo '</pre>';
-}

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @author Nabeel Shahzad <nshahzad@gmail.com>
+ * @license MIT
+ * @web http://github.com/nshahzad
+ *
+ */
 
 class RegisterController extends AppController {
 
