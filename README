@@ -14,6 +14,7 @@ Currently includes:
   * JSON stringify and simple JS templating
   * Facebook SDK with basic scaffolding for Facebook login in RegisterController (requires user table)
     When a user logs in through Facebook, it prompts them to register (creates a local account w/password)
+  * Google Analytics code, needs your API code
 
 Configuration
 

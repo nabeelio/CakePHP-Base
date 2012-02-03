@@ -29,7 +29,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="span3 sidebar">
-				<div class="logo"><img class="logo" src="/img/logo_75.png" alt="" /></div>
+				<div class="logo"><h1>My Application</h1></div>
 				<div class="sidebar_nav" >
 					<ul class="nav nav-list">
 
@@ -50,28 +50,20 @@
 				<div id="loading_message">
 					<span class="label label-info">loading...</span>&nbsp;<img src="/img/loading.gif" alt="" />
 				</div>
+
 				<div id="body_content">
 				<?php
 				echo '<div id="flash_message">'.$this->Session->flash().'</div>';
 				echo $content_for_layout;
 				?>
 				</div>
+
 			</div>
 		</div>
 	</div>
 
 	<div id="modal_container" style="display:none"></div>
 <script type="text/javascript">
-$(function() {
-	$('li#messages')
-		.popover({
-			animation: true, trigger: 'manual', delay: 200,
-			title: 'New Message', content: 'You have a new message<br />Click to close'
-		});//.popover('show');
-
-	$("div.popover").live('click', function(e) { $('li#messages').popover('hide'); });
-});
-
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', '']);
 _gaq.push(['_trackPageview']);

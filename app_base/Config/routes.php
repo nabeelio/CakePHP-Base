@@ -6,7 +6,7 @@
  * 
  */
 
-Router::connect('/', array('controller' => '', 'action' => ''));
+Router::connect('/', array('controller' => 'frontpage', 'action' => 'index'));
 
 
 CakePlugin::routes();
