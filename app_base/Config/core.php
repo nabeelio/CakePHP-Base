@@ -86,46 +86,8 @@ Configure::write('Exception', array(
  * Application wide charset encoding
  */
 Configure::write('App.encoding', 'UTF-8');
-Configure::write('Default.Timezone', -5);
-//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
 Configure::write('Routing.prefixes', array('admin'));
 //
-
-Configure::write('IP.Lookup.URL', 'http://api.ipinfodb.com/v2/ip_query.php?key=18741f173a59e875fd892624e9028d59c6de57d951a133c8efd67e1188fa6f4e&timezone=true&ip=');
-
-# Default user group to put new registrations into
-Configure::write('User.default.group', 2);
-define('GROUP_ADMIN', 1);
-define('GROUP_USER', 2);
-
-# Define the different image hosts we can use
-define('IMAGE_HOST_LOCAL', 0);
-define('IMAGE_HOST_S3', 1);
-
-Configure::write('IMAGE_HOSTS', array(
-    IMAGE_HOST_LOCAL => Configure::read('Image.Holding.Url'),
-    IMAGE_HOST_S3 => 'http://s3.amazonaws.com/'.Configure::read('S3.bucketName'),
-));
-
-# Post settings
-Configure::write('Posting.Timeout', 60*3); // new post every 3 minutes
-
-# Where to direct the user on a invalid request
-Configure::write('INVALID_PAGE_REDIRECT', '/profile');
-
-# Settings for images
-Configure::write('Listing.Image.Upload.Path', APP.'/webroot/assets/upload/');
-Configure::write('Listing.Images.Max.Files', 5);
-
-# Social network login settings
-Configure::write('FB.login.enabled', true);
-Configure::write('Twitter.login.enabled', true);
-Configure::write('Google.login.enabled', false);
-
-# These must match ENUM col in mysql
-define('OAUTH_SERVICE_TWITTER', 1);
-define('OAUTH_SERVICE_GOOGLE', 1);
-
 /**
  * Enable cache checking.
  *
@@ -146,7 +108,7 @@ define('LOG_ERROR', 2);
 Configure::write('Session.save', 'php');
 
 //Configure::write('Session.database', 'default');
-Configure::write('Session.cookie', DormilloSettings::get('app_dormillo', 'Site.Cookie.Name'));
+Configure::write('Session.cookie', JSONConfigPuller::get('app', 'Site.Cookie.Name'));
 
 Configure::write('Session.timeout', '120');
 Configure::write('Session.start', true);
@@ -188,8 +150,8 @@ Cache::config('default', array(
 	'engine' => 'Memcache',
 	'duration'=> 3600,
 	'probability'=> 100, 
-	'prefix' => DormilloSettings::get('memcache', 'prefix'),
-	'servers' => (array) DormilloSettings::get('memcache', 'servers'),
+	'prefix' => JSONConfigPuller::get('memcache', 'prefix'),
+	'servers' => (array) JSONConfigPuller::get('memcache', 'servers'),
 	'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
 ));
 
@@ -197,31 +159,31 @@ Cache::config('long', array(
 	'engine' => 'Memcache',
 	'duration'=> '+30 minutes',
 	'probability'=> 100,
-	'prefix' => DormilloSettings::get('memcache', 'prefix'),
-	'servers' => (array) DormilloSettings::get('memcache', 'servers'),
+	'prefix' => JSONConfigPuller::get('memcache', 'prefix'),
+	'servers' => (array) JSONConfigPuller::get('memcache', 'servers'),
 ));
 
 Cache::config('30m', array(
 	'engine' => 'Memcache',
 	'duration'=> '+30 minutes',
 	'probability'=> 100,
-	'prefix' => DormilloSettings::get('memcache', 'prefix'),
-	'servers' => (array) DormilloSettings::get('memcache', 'servers'),
+	'prefix' => JSONConfigPuller::get('memcache', 'prefix'),
+	'servers' => (array) JSONConfigPuller::get('memcache', 'servers'),
 ));
 
 Cache::config('1day', array(
 	'engine' => 'Memcache',
 	'duration'=> '+1 day',
 	'probability'=> 100,
-	'prefix' => DormilloSettings::get('memcache', 'prefix'),
-	'servers' => (array) DormilloSettings::get('memcache', 'servers'),
+	'prefix' => JSONConfigPuller::get('memcache', 'prefix'),
+	'servers' => (array) JSONConfigPuller::get('memcache', 'servers'),
 ));
 
 Cache::config('week', array(
 	'engine' => 'Memcache',
 	'duration'=> '+7 days',
 	'probability'=> 100,
-	'prefix' => DormilloSettings::get('memcache', 'prefix'),
-	'servers' => (array) DormilloSettings::get('memcache', 'servers'),
+	'prefix' => JSONConfigPuller::get('memcache', 'prefix'),
+	'servers' => (array) JSONConfigPuller::get('memcache', 'servers'),
 ));
 

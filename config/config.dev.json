@@ -3,7 +3,7 @@
         "environment" : "dev"
     },
 
-    "app_dormillo" : {
+    "app" : {
         "debug" : "2",
         "Site.URL" : "",
         "Site.Cookie.Name" : "",

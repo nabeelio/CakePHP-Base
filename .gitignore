@@ -1,4 +1,5 @@
 .idea
+config/config.json
 app/tmp/cache/persistent/*
 app/tmp/cache/models/*
 app/tmp/cache/views/*
