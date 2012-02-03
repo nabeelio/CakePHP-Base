@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#git pull
+echo "downloading latest"
+wget https://github.com/twitter/bootstrap/raw/master/docs/assets/bootstrap.zip
+
+echo "unzip and permissions fix..."
+unzip -u bootstrap.zip 
+chmod -R 775 bootstrap
+
+echo "cleanup"
+rm -drf bootstrap.zip
+
+echo "done"

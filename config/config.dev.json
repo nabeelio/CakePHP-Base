@@ -1,0 +1,23 @@
+{
+    "global" : {
+        "environment" : "dev"
+    },
+
+    "app_dormillo" : {
+        "debug" : "2",
+        "Site.URL" : "",
+        "Site.Cookie.Name" : "",
+        "Site.Path" : ""
+    },
+
+    "mysql":{
+        "host":"localhost",
+        "login":"",
+        "password":"",
+        "database":""
+    },
+    "memcache" : {
+        "prefix" : "",
+        "servers" : ["127.0.0.1:11211"]
+    }
+}

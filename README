@@ -1,2 +1,24 @@
-CakePHP 2.0.3 install with the basics (users, basic scripts) that I use on a new app.
-Don't have to start from scratch every time...
+CakePHP 2.1 (beta) install. Obviously not completely working out of the box (no models, routes, controllers) etc, but I use this as a base for my new CakePHP projects. There might be errors, and needs some massaging, but IMO, it's better than starting completely from scratch (for me). I just decided to make it public incase it helps anyone else out too.
+
+I want to use the CakeDC user's plugin at some point, since it will have the entire user account info/login, etc. But for now, this is cool.
+
+Currently includes:
+
+  * Bootstrap 2 CSS framework with basic styles (update script in /webroot/assets/update_bootstrap)
+  * Elements with bootstrap styling
+  * AppModel and AppController
+  * Basic layout with jQuery and Bootstrap (sidebar)
+  * Breadcrumbs build with CakePHP views
+  * jQuery (Google CDN)
+  * jQuery history plugin
+  * JSON stringify and simple JS templating
+  * Facebook SDK with basic scaffolding for Facebook login in RegisterController (requires user table)
+    When a user logs in through Facebook, it prompts them to register (creates a local account w/password)
+
+Configuration
+
+  * Main configuration exists in /config as JSON files
+  * app/Config/core.php includes class called JSONConfigPuller which pulls
+    config file from above
+  * Configs are called config.env.json (renamed to config.json to use)
+  * /config/vendors.json include keys for vendors (ie. Facebook, examples are there)

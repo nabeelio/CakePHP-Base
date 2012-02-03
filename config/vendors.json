@@ -1,0 +1,14 @@
+{
+    "recaptcha": {
+        "public" : "",
+        "private" : ""
+    },
+
+    "facebook": {
+        "appID" : "",
+        "apiKey" : "",
+        "secret" : "",
+        "cookie" : true,
+        "permissions" : ""
+    }
+}

@@ -1,0 +1,227 @@
+<?php
+/**
+ * @author Nabeel Shahzad <nabeel@dormillo.com>
+ * @copyright dormillo.com (c) 2011 all rights reserved
+ * @license property of dormillo.com 
+ * 
+ */
+
+/**
+ * This class loads all of the settings from our core JSON file that sits in /config
+ *
+ */
+class JSONConfigPuller {
+
+	protected static $json;
+
+	/**
+	 * Load the global configuration file
+	 * @return none
+	 */
+	public static function init() {
+		self::$json = file_get_contents(dirname(__FILE__).'../../../config/config.json');
+		self::$json = json_decode(self::$json);
+		self::loadToConfig();
+	}
+
+	/**
+	 * Load the given domains into the global config
+	 * @return none
+	 */
+	public static function loadToConfig() {
+		$vendors = json_decode(file_get_contents(dirname(__FILE__).'../../../config/vendors.json'));
+		foreach($vendors as $domain => $keys) {
+			foreach($keys as $key => $value) {
+				Configure::write(ucfirst($domain).'.'.$key, $value);
+			}
+		}
+	}
+
+	/**
+	 * Return a setting given a domain and key
+	 * @return mixed
+	 */
+	public static function read($domain, $key = null) {
+		return self::get($domain, $key);
+	}
+
+	/**
+	 * Return a setting given a domain and key
+	 * @return mixed
+	 */
+	public static function get($domain, $key = null) {
+		if($key === null) {
+			return self::$json->{$domain};
+		}
+
+		return self::$json->{$domain}->{$key};
+	}
+}
+
+JSONConfigPuller::init();
+
+/**
+ * SETTINGS ARE BELOW
+ *
+ */
+Configure::write('debug', JSONConfigPuller::get('app_dormillo', 'debug'));
+Configure::write('log', E_ALL & ~E_NOTICE);
+Configure::write('Cache.disable', true);
+Configure::write('Site.URL', JSONConfigPuller::get('app_dormillo', 'Site.URL'));
+Configure::write('Error.log', true);
+
+Configure::write('Error', array(
+	'handler' => 'ErrorHandler::handleError',
+	'level' => E_ALL & ~E_DEPRECATED & ~E_NOTICE,
+	'trace' => true, 'log' => true
+ ));
+    
+Configure::write('Exception', array(
+	'handler' => 'ErrorHandler::handleException',
+	'renderer' => 'ExceptionRenderer',
+	'log' => true
+ ));
+    
+/**
+ * Application wide charset encoding
+ */
+Configure::write('App.encoding', 'UTF-8');
+Configure::write('Default.Timezone', -5);
+//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
+Configure::write('Routing.prefixes', array('admin'));
+//
+
+Configure::write('IP.Lookup.URL', 'http://api.ipinfodb.com/v2/ip_query.php?key=18741f173a59e875fd892624e9028d59c6de57d951a133c8efd67e1188fa6f4e&timezone=true&ip=');
+
+# Default user group to put new registrations into
+Configure::write('User.default.group', 2);
+define('GROUP_ADMIN', 1);
+define('GROUP_USER', 2);
+
+# Define the different image hosts we can use
+define('IMAGE_HOST_LOCAL', 0);
+define('IMAGE_HOST_S3', 1);
+
+Configure::write('IMAGE_HOSTS', array(
+    IMAGE_HOST_LOCAL => Configure::read('Image.Holding.Url'),
+    IMAGE_HOST_S3 => 'http://s3.amazonaws.com/'.Configure::read('S3.bucketName'),
+));
+
+# Post settings
+Configure::write('Posting.Timeout', 60*3); // new post every 3 minutes
+
+# Where to direct the user on a invalid request
+Configure::write('INVALID_PAGE_REDIRECT', '/profile');
+
+# Settings for images
+Configure::write('Listing.Image.Upload.Path', APP.'/webroot/assets/upload/');
+Configure::write('Listing.Images.Max.Files', 5);
+
+# Social network login settings
+Configure::write('FB.login.enabled', true);
+Configure::write('Twitter.login.enabled', true);
+Configure::write('Google.login.enabled', false);
+
+# These must match ENUM col in mysql
+define('OAUTH_SERVICE_TWITTER', 1);
+define('OAUTH_SERVICE_GOOGLE', 1);
+
+/**
+ * Enable cache checking.
+ *
+ * If set to true, for view caching you must still use the controller
+ * var $cacheAction inside your controllers to define caching settings.
+ * You can either set it controller-wide by setting var $cacheAction = true,
+ * or in each action using $this->cacheAction = true.
+ *
+ */
+//Configure::write('Cache.check', true);
+
+/**
+ * Defines the default error type when using the log() function. Used for
+ * differentiating error logging and debugging. Currently PHP supports LOG_DEBUG.
+ */
+define('LOG_ERROR', 2);
+
+Configure::write('Session.save', 'php');
+
+//Configure::write('Session.database', 'default');
+Configure::write('Session.cookie', DormilloSettings::get('app_dormillo', 'Site.Cookie.Name'));
+
+Configure::write('Session.timeout', '120');
+Configure::write('Session.start', true);
+
+Configure::write('Session.checkAgent', true);
+Configure::write('Security.level', 'medium');
+Configure::write('Security.salt', 'ee9ae7dea93a32a4f297c4f4d35ac55f0c');
+Configure::write('Security.cipherSeed', '21316549846167832178965218796525');
+Configure::write('Asset.timestamp', true);
+
+/**
+ * The classname and database used in CakePHP's
+ * access control lists.
+ */
+Configure::write('Acl.classname', 'DbAcl');
+Configure::write('Acl.database', 'default');
+
+Cache::config('_cake_core_', array(
+	'engine' => 'Apc',
+	'prefix' => 'cake_core_',
+	'path' => CACHE . 'persistent' . DS,
+	'serialize' => false,
+	'duration' => '+2 seconds',
+));
+
+/**
+ * Configure the cache for model and datasource caches.  This cache configuration
+ * is used to store schema descriptions, and table listings in connections.
+ */
+Cache::config('_cake_model_', array(
+	'engine' => 'Apc',
+	'prefix' => 'cake_model_',
+	'path' => CACHE . 'models' . DS,
+	'serialize' => false,
+	'duration' => '+2 seconds',
+));
+
+Cache::config('default', array(
+	'engine' => 'Memcache',
+	'duration'=> 3600,
+	'probability'=> 100, 
+	'prefix' => DormilloSettings::get('memcache', 'prefix'),
+	'servers' => (array) DormilloSettings::get('memcache', 'servers'),
+	'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
+));
+
+Cache::config('long', array(
+	'engine' => 'Memcache',
+	'duration'=> '+30 minutes',
+	'probability'=> 100,
+	'prefix' => DormilloSettings::get('memcache', 'prefix'),
+	'servers' => (array) DormilloSettings::get('memcache', 'servers'),
+));
+
+Cache::config('30m', array(
+	'engine' => 'Memcache',
+	'duration'=> '+30 minutes',
+	'probability'=> 100,
+	'prefix' => DormilloSettings::get('memcache', 'prefix'),
+	'servers' => (array) DormilloSettings::get('memcache', 'servers'),
+));
+
+Cache::config('1day', array(
+	'engine' => 'Memcache',
+	'duration'=> '+1 day',
+	'probability'=> 100,
+	'prefix' => DormilloSettings::get('memcache', 'prefix'),
+	'servers' => (array) DormilloSettings::get('memcache', 'servers'),
+));
+
+Cache::config('week', array(
+	'engine' => 'Memcache',
+	'duration'=> '+7 days',
+	'probability'=> 100,
+	'prefix' => DormilloSettings::get('memcache', 'prefix'),
+	'servers' => (array) DormilloSettings::get('memcache', 'servers'),
+));
+
