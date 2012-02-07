@@ -13,13 +13,17 @@
 class JSONConfigPuller {
 
 	protected static $json;
+	protected static $conf_path = null;
 
 	/**
 	 * Load the global configuration file
 	 * @return none
 	 */
 	public static function init() {
-		self::$json = file_get_contents(dirname(__FILE__).'../../../config/config.json');
+		if(self::$conf_path === null) {
+			self::$conf_path = dirname(dirname(dirname(__FILE__)));
+		}
+		self::$json = file_get_contents(self::$conf_path.'/config/config.json');
 		self::$json = json_decode(self::$json);
 		self::loadToConfig();
 	}
@@ -29,7 +33,7 @@ class JSONConfigPuller {
 	 * @return none
 	 */
 	public static function loadToConfig() {
-		$vendors = json_decode(file_get_contents(dirname(__FILE__).'../../../config/vendors.json'));
+		$vendors = json_decode(file_get_contents(self::$conf_path.'/config/vendors.json'));
 		foreach($vendors as $domain => $keys) {
 			foreach($keys as $key => $value) {
 				Configure::write(ucfirst($domain).'.'.$key, $value);
