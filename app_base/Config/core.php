@@ -6,72 +6,16 @@
  *
  */
 
-/**
- * This class loads all of the settings from our core JSON file that sits in /config
- *
- */
-class JSONConfigPuller {
-
-	protected static $json;
-	protected static $conf_path = null;
-
-	/**
-	 * Load the global configuration file
-	 * @return none
-	 */
-	public static function init() {
-		if(self::$conf_path === null) {
-			self::$conf_path = dirname(dirname(dirname(__FILE__)));
-		}
-		self::$json = file_get_contents(self::$conf_path.'/config/config.json');
-		self::$json = json_decode(self::$json);
-		self::loadToConfig();
-	}
-
-	/**
-	 * Load the given domains into the global config
-	 * @return none
-	 */
-	public static function loadToConfig() {
-		$vendors = json_decode(file_get_contents(self::$conf_path.'/config/vendors.json'));
-		foreach($vendors as $domain => $keys) {
-			foreach($keys as $key => $value) {
-				Configure::write(ucfirst($domain).'.'.$key, $value);
-			}
-		}
-	}
-
-	/**
-	 * Return a setting given a domain and key
-	 * @return mixed
-	 */
-	public static function read($domain, $key = null) {
-		return self::get($domain, $key);
-	}
-
-	/**
-	 * Return a setting given a domain and key
-	 * @return mixed
-	 */
-	public static function get($domain, $key = null) {
-		if($key === null) {
-			return self::$json->{$domain};
-		}
-
-		return self::$json->{$domain}->{$key};
-	}
-}
-
-JSONConfigPuller::init();
+define('GLOBAL_CONF_DIR', dirname(dirname(dirname(__FILE__))).'/config');
+include GLOBAL_CONF_DIR.'/loader/JSONConfigReader.php';
 
 /**
  * SETTINGS ARE BELOW
- *
  */
-Configure::write('debug', JSONConfigPuller::get('app_dormillo', 'debug'));
+Configure::write('debug', JSONConfigReader::get('app_dormillo', 'debug'));
 Configure::write('log', E_ALL & ~E_NOTICE);
 Configure::write('Cache.disable', true);
-Configure::write('Site.URL', JSONConfigPuller::get('app_dormillo', 'Site.URL'));
+Configure::write('Site.URL', JSONConfigReader::get('app_dormillo', 'Site.URL'));
 Configure::write('Error.log', true);
 
 Configure::write('Error', array(
@@ -112,7 +56,7 @@ define('LOG_ERROR', 2);
 Configure::write('Session.save', 'php');
 
 //Configure::write('Session.database', 'default');
-Configure::write('Session.cookie', JSONConfigPuller::get('app', 'Site.Cookie.Name'));
+Configure::write('Session.cookie', JSONConfigReader::get('app', 'Site.Cookie.Name'));
 
 Configure::write('Session.timeout', '120');
 Configure::write('Session.start', true);
@@ -154,8 +98,8 @@ Cache::config('default', array(
 	'engine' => 'Memcache',
 	'duration'=> 3600,
 	'probability'=> 100, 
-	'prefix' => JSONConfigPuller::get('memcache', 'prefix'),
-	'servers' => (array) JSONConfigPuller::get('memcache', 'servers'),
+	'prefix' => JSONConfigReader::get('memcache', 'prefix'),
+	'servers' => (array) JSONConfigReader::get('memcache', 'servers'),
 	'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
 ));
 
@@ -163,31 +107,31 @@ Cache::config('long', array(
 	'engine' => 'Memcache',
 	'duration'=> '+30 minutes',
 	'probability'=> 100,
-	'prefix' => JSONConfigPuller::get('memcache', 'prefix'),
-	'servers' => (array) JSONConfigPuller::get('memcache', 'servers'),
+	'prefix' => JSONConfigReader::get('memcache', 'prefix'),
+	'servers' => (array) JSONConfigReader::get('memcache', 'servers'),
 ));
 
 Cache::config('30m', array(
 	'engine' => 'Memcache',
 	'duration'=> '+30 minutes',
 	'probability'=> 100,
-	'prefix' => JSONConfigPuller::get('memcache', 'prefix'),
-	'servers' => (array) JSONConfigPuller::get('memcache', 'servers'),
+	'prefix' => JSONConfigReader::get('memcache', 'prefix'),
+	'servers' => (array) JSONConfigReader::get('memcache', 'servers'),
 ));
 
 Cache::config('1day', array(
 	'engine' => 'Memcache',
 	'duration'=> '+1 day',
 	'probability'=> 100,
-	'prefix' => JSONConfigPuller::get('memcache', 'prefix'),
-	'servers' => (array) JSONConfigPuller::get('memcache', 'servers'),
+	'prefix' => JSONConfigReader::get('memcache', 'prefix'),
+	'servers' => (array) JSONConfigReader::get('memcache', 'servers'),
 ));
 
 Cache::config('week', array(
 	'engine' => 'Memcache',
 	'duration'=> '+7 days',
 	'probability'=> 100,
-	'prefix' => JSONConfigPuller::get('memcache', 'prefix'),
-	'servers' => (array) JSONConfigPuller::get('memcache', 'servers'),
+	'prefix' => JSONConfigReader::get('memcache', 'prefix'),
+	'servers' => (array) JSONConfigReader::get('memcache', 'servers'),
 ));
 
